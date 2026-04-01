@@ -580,18 +580,14 @@ export default function InvitationCard() {
           {/* Info pills grid */}
           <motion.div
             {...fadeUp(1.55)}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 18,
-              marginBottom: 22,
-            }}
+            className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5'
           >
             <InfoPill label='ભોજન સમારંભ'>
               તા. ૨૬/૦૪/૨૦૨૬,
               <br />
               બપોરે ૧૧:૩૦ કલાકે
             </InfoPill>
+
             <InfoPill label='શુભ સ્થળ'>
               સંસ્કાર ભવનની વાડી,
               <br />
