@@ -128,3 +128,17 @@
     @apply font-sans;
   }
 }
+
+body {
+  font-family: system-ui, sans-serif;
+}
+
+/* smooth rendering */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* door 3D fix */
+.perspective {
+  perspective: 1200px;
+}
