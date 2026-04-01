@@ -127,6 +127,9 @@
   html {
     @apply font-sans;
   }
+  button {
+    @apply cursor-pointer;
+  }
 }
 
 body {
@@ -141,4 +144,8 @@ body {
 /* door 3D fix */
 .perspective {
   perspective: 1200px;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
