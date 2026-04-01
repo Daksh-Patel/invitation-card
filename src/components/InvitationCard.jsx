@@ -244,6 +244,10 @@ export default function InvitationCard() {
           50%  { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
+        @keyframes devShimmer {
+          0%   { background-position: -300px 0; }
+          100% { background-position: 300px 0; }
+        }
       `}</style>
 
       {/* Ambient orbs */}
@@ -587,7 +591,6 @@ export default function InvitationCard() {
               <br />
               બપોરે ૧૧:૩૦ કલાકે
             </InfoPill>
-
             <InfoPill label='શુભ સ્થળ'>
               સંસ્કાર ભવનની વાડી,
               <br />
@@ -719,6 +722,34 @@ export default function InvitationCard() {
             animation: "spinBorder 4s linear infinite",
           }}
         />
+
+        {/* ── Developed by Daksh Patel ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5, duration: 1 }}
+          style={{
+            textAlign: "center",
+            paddingTop: 14,
+            paddingBottom: 4,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'Noto Sans Gujarati', sans-serif",
+              fontSize: 11,
+              letterSpacing: "0.08em",
+              background: "linear-gradient(90deg, #9b5fcf, #b8860b, #9b5fcf)",
+              backgroundSize: "300px 100%",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "devShimmer 4s linear infinite",
+              opacity: 0.75,
+            }}
+          >
+            ✦ Developed by Daksh Patel ✦
+          </span>
+        </motion.div>
       </motion.div>
 
       <audio autoPlay loop>
