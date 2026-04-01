@@ -4,6 +4,134 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { useState, useRef } from "react"
 
+/* ── Shared door text styles injected once ── */
+const DOOR_STYLES = `
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@400;700&family=Noto+Sans+Gujarati:wght@400;600&display=swap');
+
+  @keyframes goldShimmer {
+    0%   { background-position: -300px 0; }
+    100% { background-position: 300px 0; }
+  }
+  @keyframes subtlePulse {
+    0%, 100% { opacity: 0.82; }
+    50%       { opacity: 1; }
+  }
+  @keyframes starSpin {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.3); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  .door-star {
+    font-size: 13px;
+    color: #ffe082;
+    animation: starSpin 4s linear infinite;
+    display: inline-block;
+    text-shadow: 0 0 8px rgba(255,210,60,0.9);
+    line-height: 1;
+  }
+
+  .door-swagat {
+    font-family: 'Noto Sans Gujarati', sans-serif;
+    font-size: clamp(9px, 1.5vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #ffe082;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    animation: subtlePulse 3s ease-in-out infinite;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .door-divider {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,210,60,0.5), transparent);
+    margin: 5px 0;
+  }
+
+  .door-title {
+    font-family: 'Noto Serif Gujarati', serif;
+    font-size: clamp(12px, 2.4vw, 20px);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.25;
+    background: linear-gradient(90deg, #ffe8a0 0%, #fff5cc 40%, #f9c646 70%, #ffe8a0 100%);
+    background-size: 300px 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: goldShimmer 3.5s linear infinite;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.55));
+  }
+
+  .door-name {
+    font-family: 'Noto Serif Gujarati', serif;
+    font-size: clamp(10px, 1.8vw, 15px);
+    font-weight: 400;
+    color: rgba(255, 235, 180, 0.92);
+    text-align: center;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    animation: subtlePulse 4s ease-in-out infinite;
+    margin-top: 2px;
+  }
+
+  .door-ornament {
+    font-family: 'Noto Serif Gujarati', serif;
+    font-size: clamp(9px, 1.4vw, 12px);
+    color: rgba(255,210,80,0.65);
+    letter-spacing: 0.18em;
+    margin-top: 6px;
+    animation: subtlePulse 5s ease-in-out infinite;
+  }
+`
+
+/* ── Door panel text ── */
+function DoorText() {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 0,
+        padding: "10px 6px",
+      }}
+    >
+      {/* ✦ સ્વાગત છે ✦ */}
+      <div className='door-swagat'>
+        <span className='door-star'>✦</span>॥ શ્રી ગણેશાય નમઃ ॥
+        <span className='door-star' style={{ animationDelay: "2s" }}>
+          ✦
+        </span>
+      </div>
+
+      <div className='door-divider' />
+
+      {/* સીમંત સંસ્કાર */}
+      <div className='door-title'>
+        સીમંત
+        <br />
+        સંસ્કાર
+      </div>
+
+      <div className='door-divider' />
+
+      {/* અ.સૌ. કાજલ */}
+      <div className='door-name'>અ.સૌ. કાજલ</div>
+
+      {/* bottom ornament */}
+      <div className='door-ornament'>· · ·</div>
+    </div>
+  )
+}
+
+/* ════════════════════════════════════════════════════ */
 export default function DoorScene({ onComplete }) {
   const [open, setOpen] = useState(false)
   const audioRef = useRef(null)
@@ -16,8 +144,38 @@ export default function DoorScene({ onComplete }) {
     }, 2200)
   }
 
+  /* Shared top-panel style */
+  const topPanelStyle = {
+    position: "absolute",
+    top: "8%",
+    left: "10%",
+    right: "10%",
+    height: "36%",
+    border: "2.5px solid rgba(255,200,100,0.30)",
+    borderRadius: "4px",
+    boxShadow:
+      "inset 0 3px 14px rgba(0,0,0,0.45), 0 0 14px rgba(255,200,80,0.1)",
+    background: "rgba(0,0,0,0.20)",
+    overflow: "hidden",
+  }
+
+  /* Shared bottom-panel style */
+  const bottomPanelStyle = {
+    position: "absolute",
+    top: "52%",
+    left: "10%",
+    right: "10%",
+    height: "36%",
+    border: "2.5px solid rgba(255,200,100,0.18)",
+    borderRadius: "4px",
+    boxShadow: "inset 0 3px 10px rgba(0,0,0,0.35)",
+    background: "rgba(0,0,0,0.12)",
+  }
+
   return (
     <div className='absolute inset-0 flex flex-col items-center justify-center [perspective:1500px] overflow-hidden bg-gradient-to-br from-[#fdf6f0] via-[#fff] to-[#f3e8ff]'>
+      <style>{DOOR_STYLES}</style>
+
       {/* 🔊 MUSIC */}
       <audio ref={audioRef} loop>
         <source src='/music.mp3' />
@@ -43,27 +201,34 @@ export default function DoorScene({ onComplete }) {
         />
       ))}
 
-      {/* BUTTON */}
+      {/* ── OPEN BUTTON ── */}
       {!open && (
-        <Button
-          onClick={handleOpen}
-          className='absolute bottom-10 z-50 px-8 py-6 text-lg rounded-full 
-          bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 
-          shadow-xl hover:scale-105 transition-all duration-300'
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.7 }}
+          className='absolute bottom-10 z-50'
         >
-          ✨ Open Invitation
-        </Button>
+          <Button
+            onClick={handleOpen}
+            className='px-8 py-6 text-lg rounded-full
+              bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
+              shadow-xl hover:scale-105 transition-all duration-300'
+          >
+            ✨ Open Invitation
+          </Button>
+        </motion.div>
       )}
 
-      {/* 🎀 DECORATIVE RIBBON — Vertical stripe */}
+      {/* 🎀 RIBBON */}
       <motion.div
-        initial={{ scaleY: 1, opacity: 1 }}
-        animate={open ? { scaleY: 0, opacity: 0 } : {}}
+        initial={{ opacity: 1 }}
+        animate={open ? { opacity: 0, scaleY: 0 } : {}}
         transition={{ duration: 0.4 }}
         className='absolute inset-0 flex items-center justify-center z-40 pointer-events-none'
-        style={{ originY: "50%" }}
+        style={{ transformOrigin: "center" }}
       >
-        {/* Horizontal ribbon band */}
+        {/* Horizontal band */}
         <div
           className='absolute w-full'
           style={{
@@ -75,21 +240,18 @@ export default function DoorScene({ onComplete }) {
             transform: "translateY(-50%)",
           }}
         >
-          {/* Ribbon sheen */}
           <div
             className='absolute inset-0'
             style={{
               background:
-                "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.10) 100%)",
+                "linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 40%,transparent 60%,rgba(255,255,255,0.10) 100%)",
             }}
           />
-          {/* Gold trim top */}
           <div className='absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 opacity-80' />
-          {/* Gold trim bottom */}
           <div className='absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 opacity-80' />
         </div>
 
-        {/* Vertical ribbon band */}
+        {/* Vertical band */}
         <div
           className='absolute h-full'
           style={{
@@ -101,21 +263,18 @@ export default function DoorScene({ onComplete }) {
             transform: "translateX(-50%)",
           }}
         >
-          {/* Sheen */}
           <div
             className='absolute inset-0'
             style={{
               background:
-                "linear-gradient(90deg, rgba(255,255,255,0.18) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.10) 100%)",
+                "linear-gradient(90deg,rgba(255,255,255,0.18) 0%,transparent 40%,transparent 60%,rgba(255,255,255,0.10) 100%)",
             }}
           />
-          {/* Gold trim left */}
           <div className='absolute top-0 bottom-0 left-0 w-[3px] bg-gradient-to-b from-yellow-300 via-yellow-100 to-yellow-300 opacity-80' />
-          {/* Gold trim right */}
           <div className='absolute top-0 bottom-0 right-0 w-[3px] bg-gradient-to-b from-yellow-300 via-yellow-100 to-yellow-300 opacity-80' />
         </div>
 
-        {/* 🎀 BOW at center */}
+        {/* 🎀 BOW SVG */}
         <div
           className='absolute z-50'
           style={{
@@ -131,7 +290,6 @@ export default function DoorScene({ onComplete }) {
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
           >
-            {/* Left loop */}
             <ellipse
               cx='28'
               cy='40'
@@ -152,8 +310,6 @@ export default function DoorScene({ onComplete }) {
               stroke='rgba(255,255,255,0.18)'
               strokeWidth='2'
             />
-
-            {/* Right loop */}
             <ellipse
               cx='82'
               cy='40'
@@ -174,23 +330,18 @@ export default function DoorScene({ onComplete }) {
               stroke='rgba(255,255,255,0.18)'
               strokeWidth='2'
             />
-
-            {/* Left tail */}
             <path
               d='M55 44 Q38 62 28 72 Q34 64 36 58 Z'
               fill='url(#tailL)'
               stroke='#8B0021'
               strokeWidth='1'
             />
-            {/* Right tail */}
             <path
               d='M55 44 Q72 62 82 72 Q76 64 74 58 Z'
               fill='url(#tailR)'
               stroke='#8B0021'
               strokeWidth='1'
             />
-
-            {/* Center knot */}
             <ellipse
               cx='55'
               cy='40'
@@ -207,10 +358,7 @@ export default function DoorScene({ onComplete }) {
               ry='5'
               fill='rgba(255,255,255,0.15)'
             />
-
-            {/* Gold highlight dots on knot */}
             <circle cx='55' cy='38' r='2' fill='rgba(255,230,100,0.6)' />
-
             <defs>
               <radialGradient id='bowLeft' cx='40%' cy='35%' r='70%'>
                 <stop offset='0%' stopColor='#ff6b8a' />
@@ -253,17 +401,18 @@ export default function DoorScene({ onComplete }) {
         </div>
       </motion.div>
 
-      {/* 💥 RIBBON BURST EFFECT */}
+      {/* 💥 RIBBON BURST */}
       {open && (
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1.5, opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className='absolute w-20 h-20 bg-pink-400 rounded-full blur-xl z-40'
+          initial={{ scale: 0, opacity: 1 }}
+          animate={{ scale: 2.5, opacity: 0 }}
+          transition={{ duration: 0.7 }}
+          className='absolute w-20 h-20 bg-pink-400 rounded-full z-40'
+          style={{ filter: "blur(16px)" }}
         />
       )}
 
-      {/* 🚪 DOORS */}
+      {/* ── DOORS ── */}
       <div className='flex w-full h-full z-30'>
         {/* LEFT DOOR */}
         <motion.div
@@ -278,7 +427,7 @@ export default function DoorScene({ onComplete }) {
               "inset -12px 0 40px rgba(0,0,0,0.55), inset 4px 0 20px rgba(255,200,120,0.12)",
           }}
         >
-          {/* Wood grain lines */}
+          {/* Wood grain */}
           {[10, 22, 35, 50, 64, 78, 90].map((pos) => (
             <div
               key={pos}
@@ -287,41 +436,30 @@ export default function DoorScene({ onComplete }) {
                 left: `${pos}%`,
                 width: "1px",
                 background:
-                  "linear-gradient(180deg, transparent, rgba(0,0,0,0.18) 20%, rgba(0,0,0,0.22) 80%, transparent)",
+                  "linear-gradient(180deg,transparent,rgba(0,0,0,0.18) 20%,rgba(0,0,0,0.22) 80%,transparent)",
               }}
             />
           ))}
-          {/* Door panel inset top */}
-          <div
-            className='absolute'
-            style={{
-              top: "8%",
-              left: "10%",
-              right: "10%",
-              height: "36%",
-              border: "2.5px solid rgba(255,200,100,0.18)",
-              borderRadius: "4px",
-              boxShadow:
-                "inset 0 3px 10px rgba(0,0,0,0.35), 0 2px 6px rgba(255,200,120,0.1)",
-              background: "rgba(0,0,0,0.12)",
-            }}
-          />
-          {/* Door panel inset bottom */}
-          <div
-            className='absolute'
-            style={{
-              top: "52%",
-              left: "10%",
-              right: "10%",
-              height: "36%",
-              border: "2.5px solid rgba(255,200,100,0.18)",
-              borderRadius: "4px",
-              boxShadow:
-                "inset 0 3px 10px rgba(0,0,0,0.35), 0 2px 6px rgba(255,200,120,0.1)",
-              background: "rgba(0,0,0,0.12)",
-            }}
-          />
-          {/* Door knob */}
+
+          {/* TOP PANEL — with DoorText */}
+          <div style={topPanelStyle}>
+            {/* inner subtle border */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 4,
+                border: "1px solid rgba(255,200,80,0.12)",
+                borderRadius: 2,
+                pointerEvents: "none",
+              }}
+            />
+            <DoorText />
+          </div>
+
+          {/* BOTTOM PANEL — decorative only */}
+          <div style={bottomPanelStyle} />
+
+          {/* Knob */}
           <div
             className='absolute'
             style={{
@@ -352,7 +490,7 @@ export default function DoorScene({ onComplete }) {
               "inset 12px 0 40px rgba(0,0,0,0.55), inset -4px 0 20px rgba(255,200,120,0.12)",
           }}
         >
-          {/* Wood grain lines */}
+          {/* Wood grain */}
           {[10, 22, 35, 50, 64, 78, 90].map((pos) => (
             <div
               key={pos}
@@ -361,41 +499,29 @@ export default function DoorScene({ onComplete }) {
                 left: `${pos}%`,
                 width: "1px",
                 background:
-                  "linear-gradient(180deg, transparent, rgba(0,0,0,0.18) 20%, rgba(0,0,0,0.22) 80%, transparent)",
+                  "linear-gradient(180deg,transparent,rgba(0,0,0,0.18) 20%,rgba(0,0,0,0.22) 80%,transparent)",
               }}
             />
           ))}
-          {/* Door panel inset top */}
-          <div
-            className='absolute'
-            style={{
-              top: "8%",
-              left: "10%",
-              right: "10%",
-              height: "36%",
-              border: "2.5px solid rgba(255,200,100,0.18)",
-              borderRadius: "4px",
-              boxShadow:
-                "inset 0 3px 10px rgba(0,0,0,0.35), 0 2px 6px rgba(255,200,120,0.1)",
-              background: "rgba(0,0,0,0.12)",
-            }}
-          />
-          {/* Door panel inset bottom */}
-          <div
-            className='absolute'
-            style={{
-              top: "52%",
-              left: "10%",
-              right: "10%",
-              height: "36%",
-              border: "2.5px solid rgba(255,200,100,0.18)",
-              borderRadius: "4px",
-              boxShadow:
-                "inset 0 3px 10px rgba(0,0,0,0.35), 0 2px 6px rgba(255,200,120,0.1)",
-              background: "rgba(0,0,0,0.12)",
-            }}
-          />
-          {/* Door knob */}
+
+          {/* TOP PANEL — with DoorText */}
+          <div style={topPanelStyle}>
+            <div
+              style={{
+                position: "absolute",
+                inset: 4,
+                border: "1px solid rgba(255,200,80,0.12)",
+                borderRadius: 2,
+                pointerEvents: "none",
+              }}
+            />
+            <DoorText />
+          </div>
+
+          {/* BOTTOM PANEL — decorative only */}
+          <div style={bottomPanelStyle} />
+
+          {/* Knob */}
           <div
             className='absolute'
             style={{
@@ -414,7 +540,7 @@ export default function DoorScene({ onComplete }) {
         </motion.div>
       </div>
 
-      {/* 🌟 LIGHT REVEAL (BEHIND DOOR) */}
+      {/* 🌟 LIGHT REVEAL */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={open ? { opacity: 1 } : {}}
